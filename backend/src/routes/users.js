@@ -1,10 +1,10 @@
 const{Router} = require('express');
 const router = Router();
-const {getUser,createUser,deleteUser} = require('../controllers/users.controller');
+const {getUsers,createUser,deleteUser} = require('../controllers/users.controller');
 
 
 router.route('/')
-  .get(getUser)
+  .get(getUsers)
   .post(createUser);
 
 router.route('/:id')
