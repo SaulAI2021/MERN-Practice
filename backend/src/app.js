@@ -10,8 +10,8 @@ app.use(cors());
 app.use(express.json()); // el server recibe data json
 
 //routes
-app.get('/api/users',(req,res) => res.send('Users routes'));
-app.get('/api/notes',(req,res) => res.send('Notes routes'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/notes', require('./routes/notes'));
 
 
 module.exports = app;
