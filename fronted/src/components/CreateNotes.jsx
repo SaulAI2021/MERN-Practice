@@ -28,6 +28,7 @@ export default function CreateNote(){
       date: date
     }
     await axios.post("http://localhost:3000/api/notes",newNote);
+    window.location.href ='/';
   }
 
   function onChangeDate(date){
