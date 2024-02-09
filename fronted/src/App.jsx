@@ -1,9 +1,21 @@
+import './App.css';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
-import './App.css'
+import Navigation from './components/Navigation';
+import CreateNote from './components/CreateNotes';
+import CreateUser from './components/CreateUser';
+import NoteList from './components/NotesList';
+
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <BrowserRouter>
+      <Navigation/>
+      <Routes>
+        <Route path='/' Component={NoteList}/>
+        <Route path='/user' Component={CreateUser}/>
+        <Route path='/create' Component={CreateNote}/>
+        <Route path='/edit/:id' Component={CreateNote}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
