@@ -2,15 +2,30 @@ import axios from "axios";
 import {useState,useEffect} from 'react';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useParams,useNavigate } from "react-router-dom";
 
 export default function CreateNote(){
-  const [users, setUsers] = useState();
-  const [author,setAuthor] = useState();
-  const [title, setTitle] = useState();
-  const [content, setContent] = useState();
-  const [date,setDate] = useState(new Date());
 
-   async function CallUsers(){
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [author,setAuthor] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [date,setDate] = useState(new Date());
+  const noteId = useParams().id;
+
+  async function dataNote(){
+    const res = await axios.get("http://localhost:3000/api/notes/" + noteId);
+    setAuthor(res.data.author);
+    setTitle(res.data.title);
+    setContent(res.data.content);
+    setDate(new Date(res.data.date));
+  }
+
+  useEffect(()=>{
+    dataNote();
+  },[noteId]);
+  async function CallUsers(){
       const res = await axios.get("http://localhost:3000/api/users");
       setUsers(res.data.map(user=> user.username));
       setAuthor(res.data[0].username);
@@ -21,14 +36,18 @@ export default function CreateNote(){
 
   async function onSubmit(e){
     e.preventDefault();
-    const newNote = {
+      const newNote = {
       title : title,
       content: content,
       author : author,
       date: date
     }
-    await axios.post("http://localhost:3000/api/notes",newNote);
-    window.location.href ='/';
+    if(noteId != 0){
+      await axios.put("http://localhost:3000/api/notes/"+noteId,newNote);  
+    }else{
+      await axios.post("http://localhost:3000/api/notes",newNote);  
+    }
+    navigate('/');
   }
 
   function onChangeDate(date){
@@ -38,7 +57,7 @@ export default function CreateNote(){
     <div className="flex justify-center mx-auto max-h-screen">
       <form className="m-10 w-96 bg-white shadow-md rounded px-4 pt-6 pb-4" onSubmit={onSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold text-center text-xl mb-2"> Crear una Nota </label>
+          <label id="Title" className="block text-gray-700 text-sm font-bold text-center text-xl mb-2"></label>
         </div>
         <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -73,6 +92,7 @@ export default function CreateNote(){
         name="title"
         required
         onChange={(e) => setTitle(e.target.value)}
+        value={title}
         />
       </div>
       <div>
@@ -80,7 +100,8 @@ export default function CreateNote(){
           Nota: 
         </label>
           <textarea rows="10" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          name="content" onChange={(e)=>setContent(e.target.value)}></textarea>
+          name="content" onChange={(e)=>setContent(e.target.value)}
+          value={content}></textarea>
       </div>
       <div className="mt-2">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -89,6 +110,7 @@ export default function CreateNote(){
         <DatePicker 
         selected={date}
         onChange={onChangeDate}
+        value={date}
         />
       </div >
       <div className="flex items-center justify-center">
