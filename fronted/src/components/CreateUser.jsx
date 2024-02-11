@@ -30,16 +30,18 @@ export default function CreateUser(){
   return (
     <section className="py-14 mx-auto">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-center lg:flex md:px-8">
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-                <div className="h-32 rounded-lg bg-gray-200">
-                  <h2 className='uppercase text-center font-bold'>Crear Usuario</h2>
-                  <form action="" onSubmit={onSubmitUser}>
-                      <input type="text" value={username} onChange={onChangeUserName}/>
-                      <button type='submit'>Guardar</button>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
+                <div className="relative">
+                  <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-2' onSubmit={onSubmitUser}>
+                      <h2 className='text-center text-gray-700 text-sm font-bold mb-2'>Crear Usuario</h2>
+                      <div className='mb-4'>
+                      <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' placeholder="PanConPalta" type="text" value={username} onChange={onChangeUserName}/>
+                      </div>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline pt-2" type='submit'>Guardar</button>
                   </form>
                 </div>
-                <div className="h-32 rounded-lg bg-gray-200 lg:col-span-2">
-                  <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div className="relative">
+                  <div className="overflow-x-auto shadow-md sm:rounded-lg">
                       <table className="w-full text-sm text-rigth rtl:text-right text-gray-500 dark:text-gray-400">
                           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                               <tr>

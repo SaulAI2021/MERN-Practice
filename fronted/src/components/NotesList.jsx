@@ -25,7 +25,7 @@ export default function NoteList(){
       {
         notas?.map((nota)=>
           (     
-            <div className="relative  w-full h-64 flex flex-col justify-between bg-red-300 rounded-lg border border-red-300 mb-6 py-5 px-4" key={nota._id}>
+            <div className="relative  w-full h-64 flex flex-col justify-between bg-red-300 rounded-lg border border-red-300 mb-2 py-5 px-4" key={nota._id}>
               <div className="absolute right-4 top-4 cursor-pointer" onClick={()=> BorrarNota(nota._id)} >
                 X
               </div>

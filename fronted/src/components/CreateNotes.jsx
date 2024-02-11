@@ -12,14 +12,17 @@ export default function CreateNote(){
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [date,setDate] = useState(new Date());
+  const [edit,setEdit] = useState(false);
   const noteId = useParams().id;
 
   async function dataNote(){
-    const res = await axios.get("http://localhost:3000/api/notes/" + noteId);
-    setAuthor(res.data.author);
-    setTitle(res.data.title);
-    setContent(res.data.content);
-    setDate(new Date(res.data.date));
+    if(noteId){
+      const res = await axios.get("http://localhost:3000/api/notes/" + noteId);
+      setAuthor(res.data.author);
+      setTitle(res.data.title);
+      setContent(res.data.content);
+      setDate(new Date(res.data.date));
+    }
   }
 
   useEffect(()=>{
@@ -42,7 +45,7 @@ export default function CreateNote(){
       author : author,
       date: date
     }
-    if(noteId != 0){
+    if(noteId){
       await axios.put("http://localhost:3000/api/notes/"+noteId,newNote);  
     }else{
       await axios.post("http://localhost:3000/api/notes",newNote);  
